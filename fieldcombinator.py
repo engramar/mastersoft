@@ -37,6 +37,6 @@ p = itertools.product(functionality,
 					  threads,
 					  testdataquality,
 					  garbagecollection)
-
+ 
 for rec in p:
 	print (rec)	
