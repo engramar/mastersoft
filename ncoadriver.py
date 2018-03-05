@@ -29,9 +29,7 @@ headers = {
     'Accept': 'application/json',
     'Content-Type': 'application/json; charset=UTF-8'
 }
-#########################################################################################################
-#  Change this URL to either au or nz                                                                   #
-#########################################################################################################
+
 uri = 'https://ncoa-sb.doubleiqapps.com/NCOA'
 target = urlparse(uri)
 method = 'POST'
