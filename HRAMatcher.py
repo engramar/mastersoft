@@ -7,6 +7,7 @@
 #   Comment                                         Date                  Author                        #
 #   ================================                ==========            ================              #
 #   Initial Version                                 01/02/2017            Engramar Bollas               #
+#   Case Sensitivity                                19/04/2018            Engramar Bollas               #
 #########################################################################################################
 
 import httplib2 as http
@@ -27,7 +28,7 @@ headers = {
 #########################################################################################################
 #  Change this URL to either au or nz                                                                   #
 #########################################################################################################
-uri = 'http://localhost:8080/HRAWeb/hra/rest/nz/address/similar-addresses'
+uri = 'http://localhost:8080/HRAWeb/hra/rest/au/address/similar-addresses'
 target = urlparse(uri)
 method = 'POST'
 
@@ -60,5 +61,5 @@ for line in record:
 	for i in payld:
 		candidateaddress=(i['fullAddress'])
 		if candidateaddress=='': break 							
-	score = fuzz.ratio(fieldstrip,candidateaddress)
+	score = fuzz.token_set_ratio(fieldstrip,candidateaddress)
 	print (fieldstrip+"|"+candidateaddress+"|"+str(score))
