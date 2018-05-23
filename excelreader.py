@@ -1,15 +1,16 @@
 import pandas as pd
 import re
 
-file = 'NZ_Small2.xlsx'
-fileoutput = open('NZ_Small_Output2.txt', 'w')
+file = 'NZ_Validated records_Final.xlsx'
+#file = 'NZ_Small2.xlsx'
+fileoutput = open('NZ_Small_Output_WithCredentials_NoRowID_Fixed.txt', 'w', encoding="utf-8")
 
 xl = pd.ExcelFile(file)
 #print(xl.sheet_names)
 df = xl.parse('Sheet1')
 #print(df.iloc[0][0])
 
-fileoutput.write("UID"+"|"+ \
+fileoutput.write("ID"+"|"+ \
 				 "Endpoint"+"|"+ \
    	             "Method"+"|"+ \
    	             "Combination"+"|"+ \
@@ -37,9 +38,12 @@ for index, row in df.iterrows():
 	    	Method = methodFields[1]
 	    else: 
 	    	Endpoint = 'http://win2016-srv-tst/rightaddress.asmx'
-	    	Method = methodFields[0]
+	    	Method = methodFields[0]	    	
     except IndexError:
     	print('No method')
+
+    if Method == 'CanonicalFormat2AddressWithCredentials':
+    	Method = 'CanonicalFormatAddress2WithCredentials'	
 
     Combination = row[15].replace('|','-')     
     InputAddress = row[9].replace('postcode=','')    
@@ -52,6 +56,7 @@ for index, row in df.iterrows():
     	AddressLine1 = fields[0]
     except IndexError:
     	AddressLine1 = ''
+    AddressLine1 = re.sub(r"[0-9][0-9][0-9][0-9]", "", AddressLine1)    
 
     try:
     	if (fields[1].isdigit()):
@@ -60,6 +65,7 @@ for index, row in df.iterrows():
     	AddressLine2 = fields[1]
     except IndexError:
     	AddressLine2 = ''
+    AddressLine2 = re.sub(r"[0-9][0-9][0-9][0-9]", "", AddressLine2)
 
     try:
     	if (fields[2].isdigit()):
@@ -68,6 +74,7 @@ for index, row in df.iterrows():
     	AddressLine3 = fields[2]
     except IndexError:
     	AddressLine3 = ''
+    AddressLine3 = re.sub(r"[0-9][0-9][0-9][0-9]", "", AddressLine3)
 
     try:
     	if (fields[3].isdigit()):
@@ -76,6 +83,7 @@ for index, row in df.iterrows():
     	AddressLine4 = fields[3]    	
     except IndexError:
     	AddressLine4 = ''
+    AddressLine4 = re.sub(r"[0-9][0-9][0-9][0-9]", "", AddressLine4)
 
     try:
     	if (fields[4].isdigit()):
@@ -84,6 +92,7 @@ for index, row in df.iterrows():
     	AddressLine5 = fields[4]
     except IndexError:
     	AddressLine5 = ''
+    AddressLine5 = re.sub(r"[0-9][0-9][0-9][0-9]", "", AddressLine5)
 
     try:
     	if (fields[5].isdigit()):
@@ -92,6 +101,7 @@ for index, row in df.iterrows():
     	AddressLine6 = fields[5]
     except IndexError:
     	AddressLine6 = ''
+    AddressLine6 = re.sub(r"[0-9][0-9][0-9][0-9]", "", AddressLine6)
 
     try:
     	if (fields[6].isdigit()):
@@ -100,6 +110,7 @@ for index, row in df.iterrows():
     	AddressLine7 = fields[6]
     except IndexError:
     	AddressLine7 = ''
+    AddressLine7 = re.sub(r"[0-9][0-9][0-9][0-9]", "", AddressLine7)
 
     try:
     	if (fields[7].isdigit()):
@@ -114,19 +125,22 @@ for index, row in df.iterrows():
     except IndexError:
     	Country = ''
 
-    fileoutput.write(str(ID)+"|"+ \
-    				 str(Endpoint)+"|"+ \
-    	             str(Method)+"|"+ \
-    	             str(Combination)+"|"+ \
-    	             #str(InputAddress)+"|"+ \
-    	             str(AddressLine1)+"|"+ \
-		             str(AddressLine2)+"|"+ \
-		             str(AddressLine3)+"|"+ \
-    	             str(AddressLine4)+"|"+ \
-		             str(AddressLine5)+"|"+ \
-		             str(AddressLine6)+"|"+ \
-    	             str(AddressLine7)+"|"+ \
-		             str(Postcode)+"|"+ \
-		             str(Country)+'\n')
+    if ('ByRowID' not in Method) and ('WithCredentials' in Method):
+    #if 'ByRowID' in Method:
+	    fileoutput.write(str(ID)+"|"+ \
+	    		     str(Endpoint)+"|"+ \
+	    	             str(Method)+"|"+ \
+                             #"AddressSearch"+"|"+ \
+	    	             str(Combination)+"|"+ \
+	    	             #str(InputAddress)+"|"+ \
+	    	             str(AddressLine1)+"|"+ \
+	    	             str(AddressLine2)+"|"+ \
+	    	             str(AddressLine3)+"|"+ \
+	    	             str(AddressLine4)+"|"+ \
+	    	             str(AddressLine5)+"|"+ \
+	    	             str(AddressLine6)+"|"+ \
+	    	             str(AddressLine7)+"|"+ \
+	    	             str(Postcode)+"|"+ \
+	    	             str(Country)+'\n')
 
 fileoutput.close()
