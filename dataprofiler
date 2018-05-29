@@ -1,0 +1,28 @@
+fileinput = open('AU_Validate_NoCredentials_NoRowID_RA_out.txt','r')
+fileoutput = open('AU_Output_Profiling.txt', 'w')
+
+total = 0
+
+outputFields = []
+
+fileoutput.write('record|endpoint|method|combination|in_line1|in_line2|in_line3|in_line4|in_line5|in_line6|in_line7|in_postcode|line1|Line2|Line3|Line4|Line5|Line6|Line7|Country|PostCode|DPID|StreetName|StreetNumber|StreetType|StreetTypeSuffix|Suburb|TownOrCity|PostalDeliveryType|PostalDeliveryNumber|RuralDeliveryNumber|MeshBlock|Longitude|Latitude|MapGrid_X|MapGrid_Y|RegionCode|RegionName|AreaUnitCode|AreaUnitName|TerritoryCode|TerritoryName|FormatFlag|ErrorCode|ErrorReason|CorrectionCode|StatementOfAccuracyCode|StatementOfAccuracyReason|StreetNumber1|StreetNumber1Suffix|StreetNumber2|StreetNumber2Suffix|FlatOrUnitNumber|FlatOrUnitType|FloorOrLevelNumber|FloorOrLevelType|BuildingName|FormattedStreetName|PersonicXCode'+'\n')
+
+for line in fileinput:
+    fields = line.split('|')
+    for i in range(len(fields)):
+    	if fields[i].isdigit():
+    		outputFields.append('9')
+    	else:
+    		if fields[i].islower():
+    			outputFields.append('a')
+    		else: 
+    			if fields[i].isupper():
+    				outputFields.append('A')
+    			else:
+    				outputFields.append('Aa')    					    		
+
+    fileoutput.write("|".join(outputFields)+'\n')
+    outputFields = []
+
+fileinput.close()
+fileoutput.close()
