@@ -1,0 +1,96 @@
+<html>
+<body>
+<table>
+  <tr>
+    <td>
+Type address here:<br/>
+<input type="text" id="fullAddress" size="50" />
+<br/><br/>
+<input type="text" id="street"/> &lt;-street<br/>
+<input type="text" id="flatNumber"/> &lt;-subdwelling<br/>
+<input type="text" id="streetNumber"/> &lt;-street number<br/>
+<input type="text" id="streetName"/> &lt;-street name<br/>
+<input type="text" id="streetType"/> &lt;-street type<br/>
+<input type="text" id="postcode"/> &lt;-postcode<br/>
+<input type="text" id="suburb"/> &lt;-suburb<br/>
+<input type="text" id="state"/> &lt;-state<br/>
+    </td>
+    <td>
+Type additional address 1 here:<br/>
+<input type="text" id="fullAddress1" size="50" />
+<br/><br/>
+<input type="text" id="postal"/> &lt;-postal<br/>
+<input type="text" id="street1"/> &lt;-street<br/>
+<input type="text" id="flatNumber1"/> &lt;-subdwelling<br/>
+<input type="text" id="streetNumber1"/> &lt;-street number<br/>
+<input type="text" id="streetName1"/> &lt;-street name<br/>
+<input type="text" id="streetType1"/> &lt;-street type<br/>
+<input type="text" id="postcode1"/> &lt;-postcode<br/>
+<input type="text" id="suburb1"/> &lt;-suburb<br/>
+<input type="text" id="towncity"/> &lt;-town city<br/>
+
+    </td>
+  </tr>
+<table>
+
+
+
+<div id="error"></div>
+<link href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/themes/smoothness/jquery-ui.css" rel="stylesheet">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
+<!-- you can download the following js from our website -->
+
+<!--<script src="https://s3-ap-southeast-2.amazonaws.com/common.mastersoftgroup.com/scripts/harmony-1.6.0.min.js" type="text/javascript"></script>-->
+<script src="https://s3-ap-southeast-2.amazonaws.com/common.mastersoftgroup.com/scripts/harmony-1.6.7.min.js" type="text/javascript"></script>
+<script src="https://s3-ap-southeast-2.amazonaws.com/common.mastersoftgroup.com/scripts/harmony-ui-1.6.7.min.js" type="text/javascript"></script>
+
+                                                                                                  
+
+<script>
+  $(function() {
+    // Use the environment based on the site it is on
+    Harmony.useEnv("https://hosted.mastersoftgroup.com");
+    
+    // Init the client with the demo api user name and credential
+    Harmony.init("User", "Password", Harmony.AUSTRALIA);
+    
+    // Use the JSONP protocol
+    Harmony.useProtocol(Harmony.JSONP);
+
+    // remove PO Box from drop down list
+    //Harmony.useFeatureOptions({positionFilter:"SINGLE,DOORSTOP,ROOFTOP", caseType: "title"});
+
+    Harmony.UI.addField(Harmony.STREET, $("#street"));
+    Harmony.UI.addField(Harmony.SUBDWELLING, $("#flatNumber"));
+    Harmony.UI.addField(Harmony.STREET_NUMBER, $("#streetNumber"));
+    Harmony.UI.addField(Harmony.STREET_NAME, $("#streetName"));
+    Harmony.UI.addField(Harmony.STREET_TYPE, $("#streetType"));
+    Harmony.UI.addField(Harmony.POSTCODE, $("#postcode"));
+    Harmony.UI.addField(Harmony.LOCALITY, $("#suburb"));
+    Harmony.UI.addField(Harmony.STATE, $("#state"));
+	
+	Harmony.UI.addField(Harmony.POSTAL, $("#postal"), 1);
+    Harmony.UI.addField(Harmony.STREET, $("#street1"), 1);
+	Harmony.UI.addField(Harmony.SUBDWELLING, $("#flatNumber1"), 1);
+    Harmony.UI.addField(Harmony.STREET_NUMBER, $("#streetNumber1"), 1);
+    Harmony.UI.addField(Harmony.STREET_NAME, $("#streetName1"), 1);
+    Harmony.UI.addField(Harmony.STREET_TYPE, $("#streetType1"), 1);
+    Harmony.UI.addField(Harmony.POSTCODE, $("#postcode1"), 1);
+    Harmony.UI.addField(Harmony.SUBURB, $("#suburb1"), 1);
+    Harmony.UI.addField(Harmony.TOWN_CITY, $("#towncity"), 1);
+
+	var opt = {
+		skipTransaction: false,
+//		onSelect: function(event, ui) {
+//			console.log('completed to select address: ' + ui.item.streetName);
+//		}
+	}
+    // Configure the address lookup.
+    Harmony.UI.addressLookup($("#fullAddress"), Harmony.AUPAF, opt);
+    Harmony.UI.addressLookup($("#fullAddress1"), Harmony.NZPAF, opt, null, 1);
+
+  });
+</script>
+</body>
+</html>						
