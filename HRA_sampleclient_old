@@ -1,0 +1,52 @@
+<link href="http://code.jquery.com/ui/1.11.2/themes/redmond/jquery-ui.css" rel="stylesheet">
+<script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+<script src="http://code.jquery.com/ui/1.11.2/jquery-ui.js"></script>	
+<script src="https://s3-ap-southeast-2.amazonaws.com/common.mastersoftgroup.com/scripts/harmony-1.6.7.min.js" type="text/javascript"></script>
+
+<script>					
+	$(function() {
+		// Use the Production environment
+		Harmony.useEnv(Harmony.ENV_PRODUCTION);
+		
+		Harmony.init("", "", Harmony.AUSTRALIA);
+		
+		// Use the JSONP protocol
+		//Harmony.useProtocol(Harmony.JSONP);
+
+		$( "#" ).autocomplete({
+			// minimum number of entered characters before trying to search
+			minLength:3,
+			// miliseconds to wait before trying to search
+			delay:500,   
+	   			 			   
+			source: function(request, response) {							
+			
+				Harmony.address({ fullAddress : request.term }, Harmony.AUPAF, 
+					function(data) {					
+					
+					var array = [];							
+					if(data.status == Harmony.SUCCESS) {   
+						array = $.map(data.payload, function(p) {
+							return {
+								label: p.fullAddress,
+							};
+						});
+						response(array);
+					}
+				});
+			},
+			focus: function(event, ui) {
+				// prevent autocomplete from updating the textbox
+				event.preventDefault();
+				// manually update the textbox
+				$(this).val(ui.item.label);
+			},
+			select: function(event, ui) {
+				// prevent autocomplete from updating the textbox
+				event.preventDefault();
+				// manually update the textbox
+				$(this).val(ui.item.label);				
+			}			
+		});
+	});
+</script>
