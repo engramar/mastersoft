@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link href='https://fonts.googleapis.com/css?family=Open Sans' rel='stylesheet'>
+    <meta charset="UTF-8">
+    <title>Mastersoft Group Dashboard</title>
+    <style>
+        body {
+          font-family: 'Open Sans';
+          color: rgba(47, 86, 122, 0.932);
+          font-size: 11px;
+        }        
+        h1 {
+          font-family: 'Open Sans';
+          color: rgba(47, 86, 122, 0.932);
+          text-align: center;
+          font-size: 22px;
+        }
+        #issues {
+            font-family: "Open Sans", Arial, Helvetica, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
+        #issues td, #issues th {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+        #issues tr:nth-child(even){background-color: #f2f2f2;}
+        #issues tr:hover {background-color: #ddd;}
+        #issues th {
+            padding-top: 12px;
+            padding-bottom: 12px;
+            text-align: left;
+            background-color: rgb(54, 96, 136);
+            color: white;
+        }
+    </style>
+</hea
+d>
+<body>
+    <h1>
+        Mastersoft Change Requests (CR) Dashboard 
+    </h1>
+    <p>
+        <table id="issues" style="width:100%">
+            <!-- table header -->
+            {% if return_values %}
+            <tr>
+               {% for key in return_values[0] %}
+               <th> {{ key }} </th>
+               {% endfor %}
+            </tr>
+            {% endif %}
+          
+            <!-- table rows -->
+            {% for dict_item in return_values %}
+            <tr>
+               {% for value in dict_item.values() %}
+               <td>                     
+                {% if value.startswith('https') %}
+                    <a href="{{ value }}" target="_blank">Requirements Specification</a>
+                {% else %}    
+                    {% if value.startswith('SR') %}
+                        <font color="#660000">{{ value }}</font>
+                    {% else %}                            
+                        {{ value }} 
+                    {% endif %}
+                {% endif %}
+               </td>
+               {% endfor %}
+            </tr>
+            {% endfor %}
+          </table>
+    </p>
+</body>
+</html>
