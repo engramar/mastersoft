@@ -1,0 +1,24 @@
+import csv
+import mysql.connector
+import datetime
+import json
+
+mydb = mysql.connector.connect(
+  host="localhost",
+  user="root",
+  passwd="",
+  database="customer"
+)
+
+with open('HarmonyRAAddressCleanse.csv', newline='') as csvfile:
+    csvreader = csv.DictReader(csvfile)
+    for row in csvreader:        
+        serial_number = row['Serial Number']
+        billing_address_1 = row['Bill Address 1']
+        billing_address_2 = row['Bill Address 2']
+        billing_address_3 = row['Bill Address 3']                
+        mycursor = mydb.cursor()        
+        sql =  "UPDATE address SET `Bill Address 1` = %s, `Bill Address 2` = %s, `Bill Address 3` = %s where `Serial Number` = %s"
+        val = (billing_address_1, billing_address_2, billing_address_3, serial_number)        
+        mycursor.execute(sql, val)        
+        mydb.commit()
