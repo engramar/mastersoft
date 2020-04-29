@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Mastersoft Group Dashboard</title>    
+    <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.3.1.js"></script>    
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>    
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.js"></script>    
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.css">
+    <link href='https://fonts.googleapis.com/css?family=Open Sans' rel='stylesheet'>
+
+    <style>
+        body {
+          font-family: 'Open Sans';
+          color: rgba(47, 86, 122, 0.932);
+          font-size:14px;
+        }    
+        h1 {
+          font-family: 'Open Sans';
+          color: rgba(70, 12, 12, 0.932);
+          text-align: left;
+          font-size: 30px;
+        }
+        mark {
+          background-color: rgb(226, 219, 219);
+          color: rgba(49, 50, 56, 0.932);
+        }
+        #example {
+            font-family: "Open Sans", Arial, Helvetica, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
+        .navigation-bar {
+            width: 100%;  /* i'm assuming full width */
+            height: 80px; /* change it to desired width */
+            background-color: rgb(255, 255, 255); /* change to desired color */
+        }
+        .logo {
+            display: inline-block;
+            vertical-align: top;
+            width: 50px;
+            height: 50px;
+            margin-right: 20px;
+            margin-top: 15px;    /* if you want it vertically middle of the navbar. */
+        }
+        .navigation-bar > a {
+            display: inline-block;
+            vertical-align: top;
+            margin-right: 20px;
+            height: 80px;        /* if you want it to take the full height of the bar */
+            line-height: 80px;    /* if you want it vertically middle of the navbar */
+        }
+
+        .navigation-bar > a {
+            display: inline-block;
+            vertical-align: top;
+            margin-right: 20px;
+            height: 90px;        /* if you want it to take the full height of the bar */
+            line-height: 120px;    /* if you want it vertically middle of the navbar */
+            font-family: 'Open Sans';
+            color: rgba(100, 114, 128, 0.932);
+            text-align: left;
+            font-size: 80px;
+        }
+        /* Right-aligned section inside the top navigation */
+        .topnav-right {
+            float: right;
+            display: inline-block;
+            vertical-align: top;
+            margin-right: 10px;
+            height: 100px;        /* if you want it to take the full height of the bar */
+            line-height: 80px;    /* if you want it vertically middle of the navbar */
+            font-family: 'Open Sans';
+            color: rgba(38, 38, 53, 0.932);
+            text-align: left;
+            font-size: 13px;
+        }
+        hr.new {
+            border: 3px solid rgb(110, 8, 8);
+            border-radius: 1px;
+        }
+    </style>    
+</head>
+
+<body>
+    <nav class="navigation-bar">
+        <a href="{{ url_for('index') }}"><img src="/static/img/new-mastersoft-logo.png" align="left" width="230" height="80" vspace="10"/></a>        
+        <a>One<span style="color: rgb(110, 8, 8)">V</span>iew</a>
+        <div class="topnav-right">
+            <a href="{{ url_for('index') }}">Home</a>&emsp;
+            <a href="{{ url_for('regression') }}">Live Regression Feed</a>&emsp;
+        </div>
+    </nav>
+    <br/>
+    <br/>
+    <br/>
+    <div>
+        <hr class="new">
+        <h1>Live Regression Feed</h1>
+    </div>
+    <p>
+        <table id="testcases" class="display" style="width:100%">
+            <thead>
+                <tr>
+                    <th>Test Case ID</th>
+                    <th>Test Case Description</th>
+                    <th>SoT</th>
+                    <th>Input</th>
+                    <th>[Test] Result</th>                  
+                    <th>[Test] Response Time (ms)</th>
+                    <th>[Preview] Result</th>                  
+                    <th>[Preview] Response Time (ms)</th>
+                    <th>[Prod] Response Time (ms)</th>
+                    <th>Updated</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for dict_item in return_values %}
+                <tr>
+                   {% for value in dict_item.values() %}
+                   <td>                                        
+                    {% if value.startswith('Fail') %}
+                        <font color="red">{{ value }}</font>
+                    {% else %}                        
+                        {% if value.startswith('Pass') %}
+                            <font color="green">{{ value }}</font>
+                        {% else %}
+                            {{ value }}                 
+                        {% endif %} 
+                    {% endif %} 
+                   </td>
+                   {% endfor %}                   
+                </tr>
+                {% endfor %}    
+            </tbody>    
+            <tfoot>
+                <tr>
+                    <th>Test Case ID</th>
+                    <th>Test Case Description</th>
+                    <th>SoT</th>
+                    <th>Input</th>
+                    <th>[Test] Result</th>                  
+                    <th>[Test] Response Time (ms)</th>
+                    <th>[Preview] Result</th>                  
+                    <th>[Preview] Response Time (ms)</th>
+                    <th>[Prod] Response Time (ms)</th>
+                    <th>Updated</th>
+                </tr>
+            </tfoot>                
+            <script>
+                $(document).ready(function() {
+                    $('#testcases').DataTable( {
+                        "order": [[ 1, "asc" ]]
+                    } );
+                } );
+            </script>
+    </p>
+</body>
+</html>
